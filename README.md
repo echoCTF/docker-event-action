@@ -1,6 +1,11 @@
 # Docker event action
 Monitor docker events and perform an action on a given event.
 
+The current daemon can run both on your docker server or a remote one (depending on the desired actions).
+
+The examples included assume that the application will run on the host that is responsible for running the docker containers. For each container that gets started, we grap the namespace ID and inject a set of iptables rules into it. This allows us to run iptables commands without giving the containers any extra priviledges.
+
+What scripts are executed and how is left up to the user, this very simple nodejs script can be modified according to your needs 😃
 
 ## Quick 'n' Dirty install
 ```bash
