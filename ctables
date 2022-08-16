@@ -14,4 +14,9 @@ ip netns exec ${NSPID} iptables -I INPUT -s 10.0.0.0/24 -j ACCEPT
 ip netns exec ${NSPID} iptables -I INPUT -s 10.10.0.0/16 -j ACCEPT
 ip netns exec ${NSPID} iptables -I OUTPUT -o lo -j ACCEPT
 ip netns exec ${NSPID} iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+# ip netns exec ${NSPID} ip route add 10.194.0.0/16 via 10.0.0.243
 /bin/rm -f "$LINKFILE"
+# Fix vuln polkit on older containers
+if [ -f /proc/$NSPID/root/usr/bin/pkexec ]; then
+        chmod -s /proc/$NSPID/root/usr/bin/pkexec
+fi
