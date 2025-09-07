@@ -1,0 +1,31 @@
+{
+  "fs": {
+    "mv": [
+      {
+        "src": "/root/ETSCTF_ROOT_FLAG_FROM_BUILD",
+        "dest": "/root/ETSCTF_NEW_ROOT_FLAG_FOR_PLAYER"
+      }
+    ],
+    "sed": [
+      {
+        "file": "/etc/shadow",
+        "src": "SHADOW_FLAG_FROM_BUILD",
+        "dest": "NEW_SHADOW_FLAG_FOR_PLAYER"
+      },
+      {
+        "file": "/etc/passwd",
+        "src": "PASSWD_FLAG_FROM_BUILD",
+        "dest": "PASSWD_FLAG_FOR_PLAYER"
+      }
+    ]
+  },
+  "firewall": [
+    {"chain": "INPUT", "action": "REJECT"},
+    {"chain": "INPUT", "inInterface": "lo", "action": "ACCEPT"},
+    {"chain": "INPUT", "conntrack": "ESTABLISHED,RELATED", "action": "ACCEPT"},
+    {"chain": "INPUT", "source": "10.0.0.0/24", "action": "ACCEPT"},
+    {"chain": "INPUT", "source": "10.10.0.0/16", "action": "ACCEPT"},
+    {"chain": "OUTPUT", "outInterface": "lo", "action": "ACCEPT"},
+    {"chain": "OUTPUT", "conntrack": "ESTABLISHED", "action": "ACCEPT"}
+  ]
+}
