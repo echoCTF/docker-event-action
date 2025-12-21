@@ -1,5 +1,7 @@
 # Docker Event Action
 
+[![Dependabot Updates](https://github.com/echoCTF/docker-event-action/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/echoCTF/docker-event-action/actions/workflows/dependabot/dependabot-updates)
+[![CodeQL](https://github.com/echoCTF/docker-event-action/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/echoCTF/docker-event-action/actions/workflows/github-code-scanning/codeql)
 Monitor Docker container events and perform automated actions when containers start. This daemon can run directly on your Docker host.
 
 For each container that starts, the script:
