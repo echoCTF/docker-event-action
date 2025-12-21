@@ -8,7 +8,42 @@ const crypto = require('crypto');
 const DEBUG = process.env.DEBUG === "1";
 const LOG_FILE = process.env.LOG_FILE || path.join(__dirname, 'app.log');
 
-const docker = new Docker({ socketPath: '/var/run/docker.sock' });
+const args = process.argv.slice(2);
+if (args.includes('--help') || args.includes('-h')) {
+  console.log(`
+Usage:
+  node docker-events.js [docker-socket-or-remote-url]
+
+Examples:
+  node docker-events.js                            # Use default local socket
+  node docker-events.js /var/run/custom.sock       # Use custom local socket
+  node docker-events.js tcp://192.168.1.100:2375   # Connect to remote Docker API
+
+Environment Variables:
+  DEBUG=1          Enable debug logging
+  LOG_FILE=path    Set custom log file location
+`);
+  process.exit(0);
+}
+
+let dockerOptions = { socketPath: '/var/run/docker.sock' }; // default
+
+if (args.length > 0) {
+  const dockerTarget = args[0];
+
+  if (dockerTarget.startsWith('tcp://')) {
+    const parsed = new url.URL(dockerTarget);
+    dockerOptions = {
+      host: parsed.hostname,
+      port: parsed.port,
+      protocol: parsed.protocol.replace(':', ''), // remove trailing ':'
+    };
+  } else {
+    dockerOptions = { socketPath: dockerTarget };
+  }
+}
+
+const docker = new Docker(dockerOptions);
 
 function hashFileSHA256(filePath) {
   const data = fs.readFileSync(filePath);
