@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dockerode": "^4.0.7"
+    "dockerode": "^5.0.0"
   }
 }
