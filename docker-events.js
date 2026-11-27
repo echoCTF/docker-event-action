@@ -207,11 +207,15 @@ function handleDockerStartEvent(Actor) {
 
     if (final && final.firewall) processFirewallOps(final.firewall, containerPid);
 
+    const ctablesEnv = { ...process.env };
     ["player_id", "target_id", "team_id"].forEach(key => {
-      if (labels[key]) log(`${key}: ${labels[key]}`);
+      if (labels[key]) {
+        log(`${key}: ${labels[key]}`);
+        ctablesEnv[key] = labels[key];
+      }
     });
 
     log(`Applying ctables to PID: ${containerPid}`);
-    exec(`/usr/local/bin/ctables ${containerPid}`, logExec);
+    exec(`/usr/local/bin/ctables ${containerPid}`, { env: ctablesEnv }, logExec);
   });
 }
